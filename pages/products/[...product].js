@@ -71,33 +71,44 @@ export async function getStaticPaths(){
 
     let sortedByCategories = {};
 
-    categories.map((unique) => {
-        let filtered = allProducts.filter(
-            (product) => product.category === unique
-        );
-
-        sortedByCategories = { ...sortedByCategories, [unique]: filtered };
-    });
-
+    let allSlugs = [];
+    
+    allProducts.map(p => {
+        allSlugs = [...allSlugs, "/" +p.id + "/" + p.title]
+    })
+    
+    const allIds = allProducts.map(p => p.id);
 
     const paths = allProducts.map((product) => ({
-        params: { product: allPaths},
+        params: { product: allSlugs},
     }));
     
-    // console.log("getStaticPaths -> allPaths", allPaths)
-    // const paths = {params: {slug: allPaths}}
-    // console.log("getStaticPaths -> paths", paths)
     return { paths, fallback: true };
 }
 
 export async function getStaticProps({params}){
-    console.log("getStaticProps -> params", params)
     const res = await fetch("http://localhost:4001/api/products");
     const allProducts = await res.json();
-    const singleProduct = allProducts.filter(x => x.id === parseInt(params.product[1]))
-    console.log("getStaticProps -> singleProduct", singleProduct)
-
-    return{
-        props: { singleProduct: singleProduct[0] }
+    
+    let allSlugs = [];
+    
+    allProducts.map(p => {
+        allSlugs = [...allSlugs, p.category + "/" + p.id]
+    })
+    
+    let paramSlug = params.product.join("/");
+    
+    if(allSlugs.includes(paramSlug)){
+        const singleProduct = allProducts.filter(x => x.id === parseInt(params.product[1]))
+        
+        return{
+            props: { singleProduct: singleProduct[0] }
+        }
+    } else{
+        return{
+            props: { singleProduct: allProducts[0] }
+        }
     }
+
+
 }
