@@ -1,0 +1,32 @@
+.Nav {
+  background-color: mediumseagreen;
+  border: 3px solid grey;
+  
+  ul{
+    list-style: none;
+    font-size: 2rem;
+    margin: 2rem auto;
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    padding-inline-start: 0;
+  }
+
+  &__Link{
+    background-color: whitesmoke;
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: .6rem;
+    text-transform: uppercase;
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.5);
+    transform: translateY(0);
+    transition: all .3s ease-in-out;
+
+    &:hover, &:focus{
+      background-color: rgb(166, 211, 183);
+      transform: translateY(-.6rem);
+      color: snow;
+      cursor: pointer;
+    }
+  }
+}
