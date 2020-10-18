@@ -87,16 +87,20 @@ export async function getStaticPaths(){
 }
 
 export async function getStaticProps({params}){
+    console.log("getStaticProps -> params", params)
     const res = await fetch("http://localhost:4001/api/products");
     const allProducts = await res.json();
     
     let allSlugs = [];
     
     allProducts.map(p => {
-        allSlugs = [...allSlugs, p.category + "/" + p.id]
+        allSlugs = [...allSlugs, p.category + "/" + p.id + "/" + p.title.trim()]
+        // allSlugs = [...allSlugs, p.category + "/" + p.id + "/" + encodeURI(p.title)]
     })
+    console.log("getStaticProps -> allSlugs", allSlugs)
     
     let paramSlug = params.product.join("/");
+    console.log("getStaticProps -> paramSlug", paramSlug)
     
     if(allSlugs.includes(paramSlug)){
         const singleProduct = allProducts.filter(x => x.id === parseInt(params.product[1]))

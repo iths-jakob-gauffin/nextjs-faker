@@ -10,7 +10,7 @@ const ProductCard = ({ product }) => {
     let truncatedTitle = product.title.split("").slice(0, 30).join("").concat("...");
 
     return (
-        <Link href={`/products/[category]/[...product]`} as={`/products/${product.category}/${product.id}`}>
+        <Link href={`/products/[category]/[...product]`} as={`/products/${product.category}/${product.id}/${product.title}`}>
             <a className={styles["ProductCard"]} key={product.title}>
                 <div className={styles["ProductCard__Wrapper"]}>
                     <div className={styles["ProductCard__Outer"]}>
